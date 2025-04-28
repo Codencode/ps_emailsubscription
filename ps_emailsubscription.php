@@ -958,8 +958,9 @@ class Ps_Emailsubscription extends Module implements WidgetInterface
             if ($params['newCustomer']->newsletter && $code = Configuration::get('NW_VOUCHER_CODE')) {
                 $this->sendVoucher($email, $code);
             }
-
-            return (bool) Db::getInstance()->execute('DELETE FROM ' . _DB_PREFIX_ . 'emailsubscription WHERE id_shop=' . (int) $id_shop . ' AND email=\'' . pSQL($email) . "'");
+            if ($params['newCustomer']->newsletter) {
+                return (bool) Db::getInstance()->execute('DELETE FROM ' . _DB_PREFIX_ . 'emailsubscription WHERE id_shop=' . (int) $id_shop . ' AND email=\'' . pSQL($email) . "'");
+            }
         }
 
         if ($newsletter) {
@@ -978,6 +979,8 @@ class Ps_Emailsubscription extends Module implements WidgetInterface
     {
         $customer = new Customer($params['object']->id);
         $this->_origin_newsletter = (int) $customer->newsletter;
+
+        Db::getInstance()->execute('DELETE FROM ' . _DB_PREFIX_ . 'emailsubscription WHERE id_shop=' . (int) $params['object']->id_shop . ' AND email=\'' . pSQL($params['object']->email) . "'");
     }
 
     public function hookActionCustomerAccountUpdate($params)
