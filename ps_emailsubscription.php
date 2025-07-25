@@ -334,7 +334,7 @@ class Ps_Emailsubscription extends Module implements WidgetInterface
     public function displayViewCustomerLink($token = null, $id = null, $name = null)
     {
         $this->smarty->assign([
-            'href' => $this->context->link->getAdminLink('AdminCustomers', true, ['route' => 'admin_customers_edit', 'customerId' => (int) $id]) . '&id_customer=' . (int) $id . '&updatecustomer',
+            'href' => $this->context->link->getAdminLink('AdminCustomers', true, ['route' => 'admin_customers_edit', 'customerId' => (int) $id], ['id_customer' => (int) $id, 'updatecustomer' => 1]),
             'action' => $this->trans('View', [], 'Admin.Actions'),
             'disable' => !((int) $id > 0),
         ]);
