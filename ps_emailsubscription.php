@@ -239,7 +239,7 @@ class Ps_Emailsubscription extends Module implements WidgetInterface
                 $c->update();
             }
 
-            Tools::redirectAdmin($this->context->link->getAdminLink('AdminModules', false) . '&configure=' . $this->name . '&conf=4&token=' . Tools::getAdminTokenLite('AdminModules'));
+            Tools::redirectAdmin($this->context->link->getAdminLink('AdminModules', true, [], ['configure' => $this->name, 'conf' => 4]));
         } elseif (Tools::isSubmit('submitExport') && $action = Tools::getValue('action')) {
             $this->export_csv();
         } elseif (Tools::isSubmit('searchEmail')) {
@@ -312,7 +312,7 @@ class Ps_Emailsubscription extends Module implements WidgetInterface
         $helper_list->simple_header = false;
         $helper_list->identifier = 'id';
         $helper_list->table = 'merged';
-        $helper_list->currentIndex = $this->context->link->getAdminLink('AdminModules', false) . '&configure=' . $this->name;
+        $helper_list->currentIndex = $this->context->link->getAdminLink('AdminModules', false, [], ['configure' => $this->name]);
         $helper_list->token = Tools::getAdminTokenLite('AdminModules');
         $helper_list->actions = ['viewCustomer'];
 
@@ -334,7 +334,7 @@ class Ps_Emailsubscription extends Module implements WidgetInterface
     public function displayViewCustomerLink($token = null, $id = null, $name = null)
     {
         $this->smarty->assign([
-            'href' => 'index.php?controller=AdminCustomers&id_customer=' . (int) $id . '&updatecustomer&token=' . Tools::getAdminTokenLite('AdminCustomers'),
+            'href' => $this->context->link->getAdminLink('AdminCustomers', true, ['route' => 'admin_customers_edit', 'customerId' => (int) $id], ['id_customer' => (int) $id, 'updatecustomer' => 1]),
             'action' => $this->trans('View', [], 'Admin.Actions'),
             'disable' => !((int) $id > 0),
         ]);
@@ -1109,7 +1109,7 @@ class Ps_Emailsubscription extends Module implements WidgetInterface
         $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG') ? Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG') : 0;
         $helper->identifier = $this->identifier;
         $helper->submit_action = 'submitUpdate';
-        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false) . '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name;
+        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false, [], ['configure' => $this->name, 'tab_module' => $this->tab, 'module_name' => $this->name]);
         $helper->token = Tools::getAdminTokenLite('AdminModules');
         $helper->tpl_vars = [
             'fields_value' => $this->getConfigFieldsValues(),
@@ -1210,7 +1210,7 @@ class Ps_Emailsubscription extends Module implements WidgetInterface
         $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG') ? Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG') : 0;
         $helper->identifier = $this->identifier;
         $helper->submit_action = 'btnSubmit';
-        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false) . '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name;
+        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false, [], ['configure' => $this->name, 'tab_module' => $this->tab, 'module_name' => $this->name]);
         $helper->token = Tools::getAdminTokenLite('AdminModules');
         $helper->tpl_vars = [
             'fields_value' => $this->getConfigFieldsValues(),
@@ -1249,7 +1249,7 @@ class Ps_Emailsubscription extends Module implements WidgetInterface
         $helper->table = $this->table;
         $helper->identifier = $this->identifier;
         $helper->submit_action = 'searchEmail';
-        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false) . '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name;
+        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false, [], ['configure' => $this->name, 'tab_module' => $this->tab, 'module_name' => $this->name]);
         $helper->token = Tools::getAdminTokenLite('AdminModules');
         $helper->tpl_vars = [
             'fields_value' => ['searched_email' => $this->_searched_email],
